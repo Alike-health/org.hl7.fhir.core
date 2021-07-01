@@ -28,6 +28,10 @@ jobs:
         sed -i -e s/GITHUB_RUN_NUMBER/$GITHUB_RUN_NUMBER/g $(find . -name pom.xml)
 
     - name: Publish to CodeArtifact
+      env:
+         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DEV_KEY_ID }}
+         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEV_SECRET }}
+         AWS_DEFAULT_REGION: us-east-1
       run: |
         export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain alike --domain-owner 359782056790 --query authorizationToken --output text`
         aws configure list
